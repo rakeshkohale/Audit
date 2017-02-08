@@ -1,0 +1,10 @@
+D:\RakeshK\Audit\Audit\Audit\bin\Debug\Audit.exe.config
+D:\RakeshK\Audit\Audit\Audit\bin\Debug\Audit.exe
+D:\RakeshK\Audit\Audit\Audit\bin\Debug\Audit.pdb
+D:\RakeshK\Audit\Audit\Audit\obj\Debug\Audit.csprojResolveAssemblyReference.cache
+D:\RakeshK\Audit\Audit\Audit\obj\Debug\Audit.Form1.resources
+D:\RakeshK\Audit\Audit\Audit\obj\Debug\Audit.Properties.Resources.resources
+D:\RakeshK\Audit\Audit\Audit\obj\Debug\Audit.csproj.GenerateResource.Cache
+D:\RakeshK\Audit\Audit\Audit\obj\Debug\Audit.exe
+D:\RakeshK\Audit\Audit\Audit\obj\Debug\Audit.pdb
+D:\RakeshK\Audit\Audit\Audit\obj\Debug\Audit.Form2.resources
