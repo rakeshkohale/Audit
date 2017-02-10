@@ -20,3 +20,4 @@ E:\iStart Inc\Audit-master\Audit-master\Audit\bin\Debug\itextsharp.dll
 E:\iStart Inc\Audit-master\Audit-master\Audit\bin\Debug\itextsharp.xml
 E:\iStart Inc\Audit-master\Audit-master\Audit\obj\Debug\Audit.pdb
 E:\iStart Inc\Audit-master\Audit-master\Audit\obj\Debug\Audit.frmHome.resources
+E:\iStart Inc\Audit-master\Audit-master\Audit\obj\Debug\Audit.frmLogin.resources

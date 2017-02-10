@@ -72,7 +72,8 @@ CREATE TABLE [dbo].[MsOfferings](
  )
  GO
 
-------------------------table which logs the Update pooja details
+----------------------
+--table which logs the Update pooja details
 
 CREATE TABLE [dbo].[PoojaDetailsUpdate](
     [id] [int] IDENTITY(1,1) NOT NULL,
@@ -86,9 +87,20 @@ CREATE TABLE [dbo].[PoojaDetailsUpdate](
 ) 
  GO
 
+ -------------------
+
+ CREATE TABLE [dbo].[mstUser](
+	[userId] [int] IDENTITY(1,1) NOT NULL,
+	[userName] [varchar](20) NOT NULL,
+	[password] [varchar](20) NOT NULL,
+	[createddate] [datetime] NOT NULL,
+	[createdBy] [varchar](20) NULL
+	)
+
+ -----------------
  
  
- 
+
 alter procedure GenerateReceiptNumber
 @ReceiptNo varchar(100) OUTPUT
 with exec as owner
@@ -96,23 +108,52 @@ As
 SET NOCOUNT ON
 begin
 
-     --Declare @ReceiptNo as varchar(100)
-
-     set @ReceiptNo = Convert(varchar(4), (SELECT year(getdate())))  --Gets Year
+     Declare @maxdate as date
+	 set @maxdate = (select max(receiptdate) from msofferings)
+	 declare @currentmonthnumber as int = datepart(m, getdate())	 
+	 if(datepart(m, @maxdate) = @currentmonthnumber)
+     begin
+	 
+	 set @ReceiptNo = Convert(varchar(4), (SELECT year(getdate())))  --Gets Year
                             + '\' +
                       (SELECT FORMAT((GETDATE()),'MMM')) --gets Month Name
                             + '\' + Convert(varchar(max), (select count(*) from msOfferings)+1) --get serial number
-        select @ReceiptNo
+	 end
+	 else
+	 begin
+		set @ReceiptNo = Convert(varchar(4), (SELECT year(getdate())))  --Gets Year
+                            + '\' +
+                      (SELECT FORMAT((GETDATE()),'MMM')) --gets Month Name
+                            + '\' + '1' --set serial number
+        
+	 end
+	 select @ReceiptNo
 end
+
+
 
 --exec GenerateReceiptNumber
 
-CREATE PROCEDURE [dbo].[sp_GetAllPoojaNames]       
+alter PROCEDURE [dbo].[sp_GetAllPoojaNames]       
+--@poojatypeid int 
 AS
+set nocount on
 BEGIN
       SELECT [PoojaID] as PoojaID
       ,[PoojaTypeID] as PoojaTypeID
       ,[PoojaName] as PoojaName
       ,[Rate] as Amount
   FROM [MsPoojaDetails]
+  --where [PoojaTypeID] = @poojatypeid
 END
+
+----------------
+alter PROCEDURE [dbo].[sp_GetPoojaType]       
+AS
+set nocount on
+BEGIN
+      SELECT [PoojaTypeID] as PoojaTypeID
+      ,[PoojaTypeName] as PoojaType
+     FROM [MsPoojatype]
+END
+----------------------

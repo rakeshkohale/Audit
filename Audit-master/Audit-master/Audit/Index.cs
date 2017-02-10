@@ -28,8 +28,48 @@ namespace Audit
         private void btnAddDonation_Click(object sender, EventArgs e)
         {
             pnlDonationEntry.Visible = true;
-            bindPoojaNameforOffering();
             generateReceiptNo();
+            bindPoojaTypeforOffering();
+            //bindPoojaNameforOffering();
+
+        }
+
+        private void bindPoojaTypeforOffering()
+        {
+            try
+            {
+                DataSet dsDataFromDB = GetDataFromDatabaseinDataSetforPoojaType();
+                cboPoojaType.DataSource = dsDataFromDB.Tables[0];
+                cboPoojaType.DisplayMember = "PoojaType";
+                cboPoojaType.ValueMember = "PoojaTypeID";
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
+
+        private DataSet GetDataFromDatabaseinDataSetforPoojaType()
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                // database Connection String
+                string constr = "Data Source=RAKESH\\SQLEXPRESSRAKESH;Initial Catalog=BHADRAKALI;Persist Security Info=True;User ID=sa;Password=India@123";
+                using (SqlConnection sqlCon = new System.Data.SqlClient.SqlConnection(constr))
+                {
+                    using (SqlDataAdapter SqlDa = new SqlDataAdapter("sp_GetPoojaType", sqlCon))
+                    {
+                        SqlDa.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        SqlDa.Fill(ds);
+                    }
+                }
+                return ds;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private void generateReceiptNo()
@@ -108,7 +148,6 @@ namespace Audit
             try
             {
                 // database Connection String
-                //string connectionString = "Server = .; database = HKS; Integrated Security = true"; 
                 string constr = "Data Source=RAKESH\\SQLEXPRESSRAKESH;Initial Catalog=BHADRAKALI;Persist Security Info=True;User ID=sa;Password=India@123";
                 using (SqlConnection sqlCon = new System.Data.SqlClient.SqlConnection(constr))
                 {
@@ -118,6 +157,35 @@ namespace Audit
                         SqlDa.Fill(ds);
                     }
                 }
+
+                //using (SqlConnection conn = new SqlConnection(constr))
+                //using (SqlCommand cmd = new SqlCommand("sp_GetAllPoojaNames", conn))
+                //{
+                //    cmd.CommandType = CommandType.StoredProcedure;
+
+                //    // set up the parameters
+                //    //cmd.Parameters.Add("@poojatypeid", SqlDbType.VarChar, 50).Direction = ParameterDirection.Output;
+                //    // Add the input parameters and set the properties.
+                //    SqlParameter parameter1 = new SqlParameter();
+                //    parameter1.ParameterName = "@poojatypeid";
+                //    parameter1.SqlDbType = SqlDbType.NVarChar;
+                //    parameter1.Direction = ParameterDirection.Input;
+                //    parameter1.Value = (cboPoojaType.SelectedIndex) + 1;
+                    
+                //    // Add the parameter to the Parameters collection. 
+                //    cmd.Parameters.Add(parameter1);
+                    
+                //    // open connection and execute stored procedure
+                //    conn.Open();
+                //    cmd.ExecuteNonQuery();
+
+                //    // read output value from @ReceiptNo
+                //    //string ReceiptNo
+                //    //txtReceiptNo.Text = Convert.ToString(cmd.Parameters["@ReceiptNo"].Value);
+                //    //txtReceiptNo.Text = ReceiptNo;
+                //    conn.Close();
+                //}
+
                 return ds;
             }
             catch (Exception)
@@ -219,6 +287,45 @@ namespace Audit
                     }
                 }
             }
+        }
+
+
+        private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmLogin frmlogin = new frmLogin();
+            frmlogin.Show();
+            this.Hide();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void rdoButtonCheque_CheckedChanged(object sender, EventArgs e)
+        {
+            txtDrawnBank.Enabled = true;
+            txtBranch.Enabled = true;
+            txtChequeNo.Enabled = true;
+            txtChequeDate.Enabled = true;
+        }
+
+        private void rdoButtonCash_CheckedChanged(object sender, EventArgs e)
+        {
+            txtChequeDate.Enabled = false;
+            txtChequeNo.Enabled = false;
+            txtDrawnBank.Enabled = false;
+            txtBranch.Enabled = false;
+        }
+
+        private void cboPoojaType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bindPoojaNameforOffering();
+        }
+
+        private void cboPoojaName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //txtAmount.Text= cboPoojaName
         }
     }
 }

@@ -1,0 +1,1 @@
+Data Source=RAKESH\SQLEXPRESSRAKESH;Initial Catalog=BHADRAKALI;Persist Security Info=True;User ID=sa
